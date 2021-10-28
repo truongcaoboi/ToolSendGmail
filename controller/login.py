@@ -139,6 +139,14 @@ def logout(argv):
         login.save_infosystem(info_system)
     pass
 
+def check_login():
+    info_system = login.load_infosystem()
+    email =  info_system["current_login"]
+    if(email == ""):
+        return None, None, None
+    else:
+        return login.login(email, info_system)
+
 def printCommandInvalid(command):
     print(f"Syntax command '{command}' invalid! Please view")
     print(Constants.MESSAGE_SEPARATOR)

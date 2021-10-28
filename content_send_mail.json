@@ -1,0 +1,9 @@
+{
+    "to":[""],
+    "cc":[""],
+    "bcc":[""],
+    "subject":"",
+    "content":"",
+    "type":"html",
+    "attach":["main.py"]
+}

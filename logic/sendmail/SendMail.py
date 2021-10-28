@@ -39,12 +39,12 @@ class SendMail:
         msg.add_header('Content-Disposition', 'attachment', filename=filename)
         message.attach(msg)
 
-    def build_message(self, destination, email_send,cc, bcc, obj, body, attachments=[]):
+    def build_message(self, destination, email_send,cc, bcc, obj, body, attachments=[], content_sub_type="plain", charset="UTF-8"):
         if not attachments: # no attachments given
-            message = MIMEText(body)
+            message = MIMEText(body,content_sub_type,charset)
         else:
             message = MIMEMultipart()
-            message.attach(MIMEText(body))
+            message.attach(MIMEText(body, content_sub_type, charset))
             for filename in attachments:
                 self.add_attachment(message, filename)
         message['to'] = destination
@@ -56,8 +56,8 @@ class SendMail:
         message['subject'] = obj
         return {'raw': urlsafe_b64encode(message.as_bytes()).decode()}
     
-    def send_message(self,user_id, destination, email_send,cc='', bcc='', obj='', body='', attachments=[]):
+    def send_message(self,user_id, destination, email_send,cc='', bcc='', obj='', content='', attachments=[],Content_Sub_Type ="plain", charset="UTF-8"):
         return self.service.users().messages().send(
         userId=user_id,
-        body=self.build_message(destination,email_send,cc,bcc, obj, body, attachments)
+        body=self.build_message(destination,email_send,cc,bcc, obj, content, attachments, Content_Sub_Type, charset)
         ).execute()
